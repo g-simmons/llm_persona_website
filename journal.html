@@ -1,37 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    
-<meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="css/style.css" />
-<link rel="icon" href="assets/images/favicon.ico">
+
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="icon" href="assets/images/favicon.ico">
 </head>
 
 <body>
     <header>
-    <div class="logo">
-        <img src="assets/images/persona-logos_transparent.png" alt="Persona logo">
-    </div>
-    <nav>
-        <a href="index.html">Home</a>
-        <a href="research.html">Research</a>
-        <!-- <a href="/blogs/">Blogs</a> -->
-        <a href="journal.html">Journal Club</a>
-        <!-- <a href="/people/">People</a>         -->
-    </nav>
+        <div class="logo">
+            <img src="assets/images/persona-logos_transparent.png" alt="Persona logo">
+        </div>
+        <nav>
+            <a href="index.html">Home</a>
+            <div class="dropdown">
+                <a href="research.html">Research</a>
+                <div class="dropdown-content">
+                    <a href="prompt_skywriting.html">Drawing with Prompts</a>
+                </div>
+            </div>
+            <!-- <a href="/blogs/">Blogs</a> -->
+            <a href="journal.html">Journal Club</a>
+            <!-- <a href="/people/">People</a>         -->
+        </nav>
+
+
     </header>
 
 
-    <main>     
+    <main>
         <section id="club-info">
             <h1>Welcome to our journal club!</h1>
-            <h2>We are a group of individuals passionate about discussing and exploring various topics in LLM field.</h2>
+            <h2>We are a group of individuals passionate about discussing and exploring various topics in LLM field.
+            </h2>
             <img src="assets/images/taxi-student-climbing-on-giant-book-pile.png" alt="Book pile" width="400px">
         </section>
-    
-        
+
+
         <section id="meeting-schedule">
             <div class="meeting-content">
                 <h2 id="meeting">Meeting Schedule</h2>
@@ -53,13 +62,15 @@
             </div>
             <div class="follow">
                 <h2>Connect with us on Instagram</h2>
-                <a href="https://www.instagram.com/llmjournalclub/?img_index=1"><img src="assets/images/taxi-like.png" alt="Like emoji" width="50px" height="auto"></a>
+                <a href="https://www.instagram.com/llmjournalclub/?img_index=1"><img src="assets/images/taxi-like.png"
+                        alt="Like emoji" width="50px" height="auto"></a>
                 <p>Get updated on future meetings!</p>
             </div>
         </section>
-       
-    
+
+
     </main>
 
 </body>
+
 </html>
