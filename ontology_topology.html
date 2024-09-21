@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ontology Topology in Language Models</title>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="icon" href="assets/images/favicon.ico">
+</head>
+
+<body>
+
+    <header>
+        <div class="logo">
+            <img src="assets/images/persona-logos_transparent.png" alt="Persona logo">
+        </div>
+        <nav>
+            <a href="index.html">Home</a>
+            <div class="dropdown">
+                <a href="research.html">Research</a>
+                <div class="dropdown-content">
+                    <a href="prompt_skywriting.html">Drawing with Prompts</a>
+                    <a href="ontology_topology.html">Ontology Topology</a>
+                </div>
+            </div>
+            <!-- <a href="/blogs/">Blogs</a> -->
+            <a href="journal.html">Journal Club</a>
+            <a href="people.html">People</a>
+        </nav>
+    </header>
+
+    <main>
+        <div class="container" style="padding: 10%;">
+            <h1>[TITLE]</h2>
+
+                TODO: TLDR summary
+                TODO: Author list and title
+                TODO: Add Raymond to people page
+                TODO: Equations for each of the scores
+
+
+                <h2>1. Introduction</h2>
+                <p>An ontology is a collection of primitives/concepts that model a certain domain of knowledge (Gruber
+                    et
+                    al.).
+                    Concepts
+                    in ontologies are hierarchically connected in parent-child relationships. A parent (also called
+                    hypernym)
+                    can be
+                    thought of as encompassing a child (hyponym). For example, "mammal" is a hypernym to "dog".</p>
+                <h3>1.1 Linear Representation Hypothesis</h3>
+                <p>Park et al. define the causal inner product - a transformation of a LLM unembedding matrix that
+                    preserves
+                    language
+                    semantics by encoding linear representations of ontological sets, or "categorical concepts", as
+                    orthogonal.
+                    Ontological sets are expansions upon individual concepts, a collection of synonyms of the concept
+                    term.
+                    These
+                    sets
+                    are encoded as a vector as a result of retrieving unembeddings of a concept's synonyms.</p>
+                <p>Their work confirms the linear representation hypothesis - "that high-level concepts are linearly
+                    encoded
+                    in
+                    the
+                    representation spaces of LLMs" (Park 2024). This may already be expected, as we've already had
+                    examples
+                    of
+                    word
+                    representations that support linear transformations since the 2013 Word2Vec paper.</p>
+                <p>Moreover, they show that the concept vectors pointing from child-parent and parent-grandparent nodes
+                    in
+                    an
+                    ontology
+                    are orthogonal to each other.</p>
+                <h3>1.2 Heatmaps/Graphs</h3>
+                <p>Park et al. shows these relationships with heatmaps, included here as Figure 1. These heatmaps are
+                    ordered by
+                    concept
+                    hierarchy - it would be expected that "entity" be the upper left most entry. The first heatmap is an
+                    adjacency
+                    matrix describing the child-parent relationship between concepts of an ontology, where a child is
+                    adjacent
+                    to
+                    another concept if descending at any depth. The second heatmap is a cosine similarity matrix between
+                    the
+                    linear
+                    representations of these concepts. As seen in Figure 1, the adjacency matrix is echoed in the second
+                    heatmap,
+                    suggesting ontological representation in the LLM space. The third heatmap shows cosine similarity
+                    between
+                    the
+                    difference of a concept's and its parent's linear representation. The branches from the adjacency
+                    matrix
+                    have
+                    near-zero values in the third heatmap, demonstrating the orthogonality between the child-parent and
+                    parent-grandparent concepts.</p>
+                <figure>
+                    <img src="path_to_figure_1.jpg" alt="Figure 1 from Park et. al.">
+                    <figcaption>Figure 1 from Park et. al.</figcaption>
+                </figure>
+                <p>Park et al. also take linear representations of ontological concepts along with random words, and
+                    compare
+                    the
+                    norms
+                    of these vectors. As seen in Figure 2, there is a significant gap between the two groups, indicating
+                    high
+                    level
+                    representation of ontological features in the LLM space.</p>
+                <h2>2. Research Question</h2>
+                <p>In this investigation, we explore if longer-trained LLM models have better ontological
+                    representations.
+                </p>
+                <h3>2.1 Method</h3>
+                <h4>2.1.1 Scores/Evaluation</h4>
+                <p>Using the heatmaps from Park et al. as a basis, we introduce three scores for evaluating a model's
+                    ontological
+                    maturity. Linear representation: the average of the concept representation vector norms from Figure
+                    2.
+                    Causal
+                    separability: by comparing the adjacency matrix and cosine similarity of representation vectors from
+                    Figure
+                    1,
+                    we
+                    find the Frobenius norm of the difference between the cosine similarity and adjacency matrices,
+                    ignoring
+                    the
+                    diagonal. Hierarchical: the Frobenius norm of the cosine similarity between child-parent
+                    representation
+                    differences,
+                    disregarding the diagonal as well.</p>
+                <p>A boilerplate LaTeX equation is shown below:</p>
+                <p>\[
+                    E = mc^2
+                    \]</p>
+                <h4>2.1.2 Model</h4>
+                <p>For the LLM model, Park et al. uses Google's Gemma-2b model. However, we use EleutherAI's Pythia
+                    models
+                    in
+                    our
+                    investigation, a collection of models with various parameter sizes with checkpoints in terms of
+                    training
+                    steps.
+                    These include every thousandth step between step1000 and step143000, of which we use the odd
+                    thousands(step1000,
+                    step3000, …). This allows us to measure the above three scores as a function of training steps.</p>
+                <p>We use five different sized models: 70M, 160M, 1.4B, 2.8B, and 12B parameters. Of these, evaluations
+                    on
+                    160M,
+                    2.8B,
+                    and 12B can be found on the Open LLM Leaderboard.</p>
+                <h4>2.1.3 Data</h4>
+                <p>For the ontology, we use the WordNet database as did so by Park et al. in their original exploration.
+                    This
+                    database
+                    contains thousands of synsets (groups of synonyms for a concept), related to one another in a
+                    hierarchical
+                    fashion.
+                </p>
+                <h4>2.1.4 Results</h4>
+                <figure>
+                    <img src="path_to_figure_1.jpg"
+                        alt="Figure 1: Causal separation, hierarchy, and linear representation scores for Pythia models">
+                    <figcaption>Figure 1: Causal separation, hierarchy, and linear representation scores for Pythia 70M,
+                        160M,
+                        1.4B,
+                        2.8B, and 12B models, for training steps from 1000 to 143,000.</figcaption>
+                </figure>
+                <h5>Observation 1: Ontological maturity increases with training steps</h5>
+                <p>From each graph, we see a clear improvement in each of the respective scores, an increase in linear
+                    representation
+                    scores and a decrease in the causal separation and hierarchical scores. This plateaus after sharp
+                    improvement,
+                    similar to the common trend that models improve mostly at the beginning of training.</p>
+                <h5>Observation 2: Larger models demonstrate improved scores (generally)</h5>
+                <p>The models improve in terms of parameter size as well, where increasingly higher parameter models
+                    have
+                    better
+                    scores
+                    with the exception of linear representation, where we see a counter-intuitive pattern, as
+                    progressively
+                    lower
+                    parameter sizes lead to higher scores.</p>
+                <h5>Observation 3: Larger models show more variability in hierarchy and causal separation scores</h5>
+                <p>Looking at the causal separation and hierarchical scores, we see that for 70M and 160M models, scores
+                    are
+                    relatively
+                    smooth throughout training. However, there is more noise in the curves moving down to the larger
+                    models.
+                    It
+                    seems
+                    that the noise increases along with model size.</p>
+                <p>We computed levels of noise by totaling the squared error between the points and a best fit
+                    logarithmic
+                    function.
+                </p>
+                <p>This is not the case of linear representation, where all curves are smooth and generally monotonic.
+                </p>
+                <p>A higher linear representation score means better high-level representation of ontological concepts,
+                    as
+                    the
+                    distinction between these concepts and random words grows.</p>
+                <p>The decrease in causal separability score is indicative that the reflection of the adjacency matrix
+                    is
+                    more
+                    apparent
+                    in the cosine similarity matrix, implying improved representation of ontological categories in the
+                    Pythia
+                    model
+                    space.</p>
+                <p>The decrease in hierarchical score is indicative of more pronounced orthogonality between
+                    child-parent
+                    and
+                    parent-grandparent pairs, as the cosine similarity between these pairs gets closer and closer to 0.
+                </p>
+                <h2>Applications</h2>
+                <p>[Content for Applications section]</p>
+                <h2>Future Work</h2>
+                <p>We continue this work with different ontologies, found on OBOFoundry. We also find term frequencies
+                    of
+                    The
+                    Pile,
+                    the
+                    dataset used to train Pythia models. From this we are able to evaluate a relationship between
+                    individual
+                    ontology
+                    term scores and their respective term frequencies.</p>
+        </div>
+    </main>
+
+</body>
+
+</html>
