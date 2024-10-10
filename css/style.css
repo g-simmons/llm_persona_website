@@ -74,8 +74,56 @@ nav a:hover {
 
     background-color: var(--section-color);
     width: 100%;
-    height: 100vh;
 }
+
+.people-section {
+    height: auto;
+}
+
+.reading-list-tables {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+.reading-list-term {
+    min-width: 400px;
+    margin-left: 50px;
+    margin-right: 50px;  
+    margin-top: 30px;
+    margin-bottom: 30px;
+    /* max-width: 800px; */
+    flex-grow: 1;
+}
+
+.person {
+    display: grid;
+    grid-template-columns: 250px auto;
+    max-width: 1200px;
+    margin-top: 40px;
+    margin-bottom: 40px;
+}
+
+.person img {
+    max-height: 200px;
+    /* width: 100%; */
+    margin: 10px;
+}
+
+.reading-list-term table tr {
+    height: 50px;
+}
+
+.reading-list-term table td {
+    vertical-align: top;
+    padding: 8px;
+    height:  50px;
+}
+
+.reading-list-term table td:nth-child(4) {
+    font-size: smaller;
+}
+
 .logo{
     /* display: inline-block;
     vertical-align: top; */
@@ -280,4 +328,22 @@ button:hover {
 ul{
     display: flex;
     list-style: none;
+}
+
+.headshot {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin: 10px;
+}
+
+.bio {
+    max-width: 600px;
+    text-align: center;
+    margin: 10px;
+}
+
+figcaption {
+    font-size: 15px;
 }
