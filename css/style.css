@@ -317,6 +317,19 @@ button:hover {
     height:auto;
     text-align: center;
 }
+.reading-list{
+    display: flex;
+    margin: 2em;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.reading-list-tables{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
 #meeting-schedule {
     background-color: var(--primary-color);
     display: flex;
@@ -329,7 +342,8 @@ button:hover {
 }
 #past-recordings{
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
+    justify-content: center;
     align-items: center;
     height:auto;
     padding: 4em;
@@ -339,6 +353,7 @@ button:hover {
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
+    margin: 1em;
 }
 #meeting{
     color:var(--section-color);
