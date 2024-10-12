@@ -27,8 +27,13 @@
                 </div>
             </div>
             <!-- <a href="/blogs/">Blogs</a> -->
+            <div class="dropdown">
             <a href="journal.html">Journal Club</a>
-            <a href="people.html">People</a>
+                <div class="dropdown-content">
+                    <a href="candidate_papers.html">Candidate Papers</a>
+                </div>
+            </div>
+                <a href="people.html">People</a>
         </nav>
     </header>
 
@@ -100,15 +105,17 @@
     </main>
 
     <script type="text/javascript">
-        emailjs.init("h-00rOUWVqpKY7IiE");
+        emailjs.init("fw-QjkfIMrZv6_FLs");
     </script>
     <script>
         function sendEmail() {
             const form = document.getElementById("contactForm");
 
-            emailjs.sendForm("service_7hhe9ei", "template_idh6sj4", form)
+            emailjs.sendForm("service_u8dx6hm", "template_7zgkf0w", form)
                 .then((response) => {
                     console.log("Email sent successfully", response);
+                    alert("Thank you for your message! The message have been emailed to us!");
+                    form.reset();
                     // Optionally, you can show a success message or redirect the user.
                 })
                 .catch((error) => {
