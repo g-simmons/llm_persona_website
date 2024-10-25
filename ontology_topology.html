@@ -9,9 +9,57 @@
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <link rel="stylesheet" href="css/style.css" />
     <link rel="icon" href="assets/images/favicon.ico">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap" rel="stylesheet">
+    <style>
+     body {
+         line-height: 1.6;
+         color: #333;
+         margin: 0;
+         padding: 0;
+     }
+     .container {
+         font-family: Merriweather; serif;
+         display: flex;
+         margin: 0 auto;
+         padding: 20px;
+         flex-direction: row;
+         height: calc(100vh - 10%); /* Adjust based on your header height */
+     }
+     .main-content {
+         flex: 2;
+         padding-right: 20px;
+         overflow-y: auto;
+         margin-top: 10%;
+     }
+     .figures-column {
+         flex: 1;
+         padding-left: 20px;
+         border-left: 1px solid #ccc;
+         position: sticky;
+         top: 60px; /* Adjust based on your header height */
+         height: calc(100vh - 60px); /* Adjust based on your header height */
+         margin-top: 10%;
+     }
+     figure {
+         margin-bottom: 30px;
+     }
+     img {
+         max-width: 100%;
+         height: auto;
+     }
+     figcaption {
+         font-style: italic;
+         margin-top: 10px;
+     }
+    </style>
 </head>
 
-<body>
+<body style="background-color:white;">
 
     <header>
         <div class="logo">
@@ -28,19 +76,34 @@
             </div>
             <!-- <a href="/blogs/">Blogs</a> -->
             <a href="journal.html">Journal Club</a>
+            <div class="dropdown">
+            <a href="journal.html">Journal Club</a>
+                <div class="dropdown-content">
+                    <a href="candidate_papers.html">Candidate Papers</a>
+                </div>
+            </div>
             <a href="people.html">People</a>
         </nav>
     </header>
 
     <main>
-        <div class="container" style="padding: 10%;">
-            <h1>[TITLE]</h2>
+        <div class="container" style="padding-top: 0px; padding-left: 10%; padding-right: 10%;">
+            <div class="main-content">            <h1 style="margin-left: 0em;">Ontologies in Language Model Unembedding Matrices</h2>
 
-                TODO: TLDR summary
-                TODO: Author list and title
-                TODO: Add Raymond to people page
-                TODO: Equations for each of the scores
+                Authors:
 
+                <ul>
+                    <li style="margin-right: 3em;"><b>Raymond Ran</b> <br> <span style="font-size: smaller;">(Most of this blog post, experiment design and execution)</span></li>
+                    <li style="margin-right: 3em"><b>Gabriel Simmons</b> <br> <span style="font-size: smaller;">(wrote TLDR, some editing, some guidance on experiments)</span></li>
+                </ul>
+
+                Status:
+
+                <ul>DRAFT; Under construction. Do not cite.</ul>
+
+                <h2>TL;DR:</h2>
+                <p><a href="https://arxiv.org/abs/2406.01506" style="padding: 0px; width: fit-content; display: inline;">Park et. al.</a> find that language models represent hierarchical categorical concepts according to a predictable geometric pattern. We investigate how widespread this phenomenon is, how it emerges during training, and its relationship to model size.
+                </p>
 
                 <h2>1. Background</h2>
                 <p>An ontology is a collection of primitives/concepts that model a certain domain of knowledge (Gruber et al.). Concepts
@@ -160,7 +223,7 @@
                 <h4>2.1.4 Results</h4>
                 <figure>
                     <img src="assets\ontology_figures\figure3.png"
-                        alt="Figure 1: Causal separation, hierarchy, and linear representation scores for Pythia models">
+                         alt="Figure 1: Causal separation, hierarchy, and linear representation scores for Pythia models">
                     <figcaption>
                         Causal separation, hierarchy, and linear representation scores for Pythia 70M, 160M, 1.4B, 2.8B, and 12B models, for training steps from 1000 to 143,000.
                     </figcaption>
@@ -219,6 +282,24 @@
                     individual
                     ontology
                     term scores and their respective term frequencies.</p>
+
+        </div>
+                <div class="figures-column">
+                    <figure>
+                        <img src="assets/ontology_figures/figure1.png" alt="Figure 1 from Park et. al.">
+                        <figcaption>Figure 1 from Park et. al.</figcaption>
+                    </figure>
+
+                    <figure>
+                        <img src="assets/ontology_figures/figure2.png" alt="Figure 2 from Park et. al.">
+                        <figcaption>Figure 2 from Park et. al.</figcaption>
+                    </figure>
+
+                    <figure>
+                        <img src="assets/ontology_figures/figure3.png" alt="Figure 3: Causal separation, hierarchy, and linear representation scores for Pythia models">
+                        <figcaption>Causal separation, hierarchy, and linear representation scores for Pythia 70M, 160M, 1.4B, 2.8B, and 12B models, for training steps from 1000 to 143,000.</figcaption>
+                    </figure>
+                </div>
         </div>
     </main>
 
