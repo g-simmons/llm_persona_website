@@ -171,14 +171,44 @@
                 <h3>2.1 Method</h3>
                 <h4>2.1.1 Scores/Evaluation</h4>
                 <p>
-                    Using the formalization from Park et al. as a basis, we introduce three scores for evaluating a model’s ontological maturity.  Linear representation: the average of the concept representation vector norms from Figure 2. Causal separability: by comparing the adjacency matrix and cosine similarity of representation vectors from Figure 1, we find the Frobenius norm of the difference between the cosine similarity and adjacency matrices, ignoring the diagonal. Hierarchical: the Frobenius norm of the cosine similarity between child-parent representation differences, disregarding the diagonal as well.
+                    Using the formalization from Park et al. as a basis, we introduce three scores for evaluating a model’s ontological maturity.
                 </p>
-                <p>A boilerplate LaTeX equation is shown below:</p>
                 <p>
-                    \[
-                    E = mc^2
-                    \]
+
+                    Linear representation: the average of the concept representation vector norms from Figure 2.</p>
+                    $$
+                    \begin{align*}
+                    \text{linear-rep-score}(model, ontology) &= \mathbb{E}_{\text{binary concepts}}\left(\cos(\text{test-word}, \text{concept vector})\right) \\
+                    &\mathbb{E}_{y \in y(w)} \text{proj}(y, \bar{\ell}_w) \\
+                    \text{where } \bar{\ell}_w & \text{ is the LDA vector from Park et al.}:
+                    \end{align*}
+                    $$
+
+                    $$ 
+                    \bar{\ell}_w = (\left(\tilde{g}_{w}^{\top}\right)\mathbb{E}(g_{w}))\tilde{g}_{w}
+                    $$
+
+                    $$
+                    \tilde{g}_{w} = \frac{\text{Cov} (g_{w})^\dagger \mathbb{E}(g_{w})}{\left\| \text{Cov} (g_{w})^\dagger \mathbb{E}(g_{w}) \right\|_{2}}
+                    $$
+            
+                <p>
+
+                    Causal separability: by comparing the adjacency matrix and cosine similarity of representation vectors from Figure 1, we find the Frobenius norm of the difference between the cosine similarity and adjacency matrices, ignoring the diagonal.
                 </p>
+                $$
+                \text{causal-sep-score}(m,o) = \left\| \text{Adj}(o) - \text{off-diag}(\text{cos}(\tilde{\ell}_w), (\tilde{\ell})_z) \right\|_{F}
+                $$
+                <p>
+                    Hierarchical: the Frobenius norm of the cosine similarity between child-parent representation differences, disregarding the diagonal as well.
+                </p>
+                $$
+                \begin{align}
+                \text{hierarchy-score} = \left\| \mathbb{1} - \text{cos}(\tilde{\ell}_w - \tilde{\ell}_\text{parent of W}, \tilde{\ell}_{Z} - \tilde{\ell}_\text{parent of Z}) \right\|_F \\
+                \text{where } \mathbb{1} \text{ is the appropriately-sized identity matrix}
+                \end{align}
+                $$
+                
                 <h4>2.1.2 Model</h4>
                 <p>
                     For the LLM model, Park et al. uses  Google’s Gemma-2b model. However, we use EleutherAI’s Pythia models in our investigation, a collection of models with various parameter sizes with checkpoints in terms of training steps. These include every thousandth step between step1000 and step143000, of which we use the odd thousands (step1000, step3000, …). This allows us to measure the above three scores as a function of training steps.
