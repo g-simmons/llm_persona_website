@@ -8,7 +8,7 @@
     <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
     <title>Drawing with Prompts</title>
 </head>
-<body>
+<body style="background-color:white;">
     <header>
         <div class="logo">
             <img src="assets/images/persona-logos_transparent.png" alt="Persona logo">
@@ -53,7 +53,7 @@
                 <h2>How SkyWrite Works</h2>
                 <p>Sentence Generation: SkyWrite's ability to create shapes from anchor points comes from its ability to generate sentences abiding to a certain theme. In order for us to pre-decide on the anchor points that will lead to the creation of a shape or illustration, it’s important that our 2-dimensional embedding space is filled with many sentences. This is because the goal is to create approximately uniform coverage. In doing so, a shotgun splatter effect is created. This helps guarantee that there will be a closeby point in the 2-dimensional embedding space for every point on our shape.</p>
                 <div class="fig-cap">
-                    <img src="assets/images/spread.png" alt="Shotgun Spread Effect created by sentence generation via a covariance matrix">
+                    <img src="assets/images/spread.png" alt="Shotgun Spread Effect created by sentence generation via a covariance matrix" class="figure-img" onclick="openModal(this.src)">
                     <figcaption>Image illustrating 2 anchor points in red being connected by intermediate points creating a path.</figcaption>
                 </div>
                 
@@ -65,7 +65,7 @@
                 <p><span style="font-weight: bold;color: var(--primary-color)">Reducing Vectors to 2D:</span> SkyWrite through its lifecycle has gone through multiple phases of dimensionality reduction techniques on randomly generated vectors. However, our project is currently using UMAP: Uniform manifold approximation and projection for dimension reduction. UMAP is a dimensionality reduction technique that can be used for visualization similar to T-SNE. However, UMAP differs from T-SNE. It’s able to be used for nonlinear dimensionality reduction. It gives UMAP the ability to maintain global structure of the data which makes it suitable not only for visualization but also for general preprocessing tasks. This means that UMAP can handle different types of data more effectively. One of the ways in which UMAP accomplishes this is by choosing an appropriate distance metric. For our use of UMAP, we are using the cosine metric. The cosine metric measures the cosine angle between two vectors measuring how similar their orientations are. </p>
                 <p><span style="font-weight: bold; color: var(--primary-color);">Visualization:</span> Arguably, the most important feature of SkyWrite is its ability to show how anchor points can connect when creating a shape. It’s important to be able to see the path of sentences converted from high dimensionality  all the way to the 2-dimensional setting. It’s important to see how the behavior of each sentence changes as we move along the 2-dimensional UMAP axes</p>
                 <div class="fig-cap">
-                    <img src="assets/images/umap_embeddings.png" alt="UMAP Scatter Plot for Mixed Embeddings">
+                    <img src="assets/images/umap_embeddings.png" alt="UMAP Scatter Plot for Mixed Embeddings" class="figure-img" onclick="openModal(this.src)">
                     <figcaption>Image illustrating 2 anchor points in red being connected by intermediate points creating a path. </figcaption>
                 </div>
                 
