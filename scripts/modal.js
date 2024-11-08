@@ -8,6 +8,7 @@ function openModal(src) {
 function closeModal() {
     const modal = document.getElementById("myModal");
     modal.style.display = "none";
+    
 }
 
 // Close the modal if the user clicks anywhere outside of it
@@ -15,5 +16,11 @@ window.onclick = function (event) {
     const modal = document.getElementById("myModal");
     if (event.target == modal) {
         closeModal();
-    }
+    }   
 }
+// Close the modal if user hits 'Esc'
+document.addEventListener('keydown', function(event) {
+    if (event.key === "Escape") {
+        closeModal();
+    }
+});
