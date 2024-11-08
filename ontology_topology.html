@@ -196,8 +196,8 @@
                     near-zero values in the third heatmap, demonstrating the orthogonality between the child-parent and
                     parent-grandparent concepts.</p>
                 <figure>
-                    <img src="assets\ontology_figures\figure1.png" alt="Figure 1 from Park et. al."
-                    class="figure-img" onclick="openModal(this.src)">
+                    <img src="assets\ontology_figures\figure1.png" alt="Figure 1 from Park et. al." class="figure-img"
+                        onclick="openModal(this.src)">
                     <figcaption>Figure 1 from Park et. al.</figcaption>
                 </figure>
                 <p>
@@ -206,7 +206,8 @@
                     groups, indicating high level representation of ontological features in the LLM space.
                 </p>
                 <figure>
-                    <img src="assets\ontology_figures\figure2.png" alt="Figure 2 from Park et. al." class="figure-img" onclick="openModal(this.src)">
+                    <img src="assets\ontology_figures\figure2.png" alt="Figure 2 from Park et. al." class="figure-img"
+                        onclick="openModal(this.src)">
                     <figcaption>Figure 2 from Park et. al.</figcaption>
                 </figure>
                 <h2>2. Research Question</h2>
@@ -259,7 +260,8 @@
                     differences, disregarding the diagonal as well.
                 </p>
                 $$
-                \text{hierarchy-score} = \left\| \mathbb{1} - \text{cos}(\tilde{\ell}_w - \tilde{\ell}_\text{parent of W}, \tilde{\ell}_{Z} - \tilde{\ell}_\text{parent of Z}) \right\|_F
+                \text{hierarchy-score} = \left\| \mathbb{1} - \text{cos}(\tilde{\ell}_w - \tilde{\ell}_\text{parent of
+                W}, \tilde{\ell}_{Z} - \tilde{\ell}_\text{parent of Z}) \right\|_F
                 $$
                 $$
                 \text{where } \mathbb{1} \text{ is the appropriately-sized identity matrix}
@@ -287,7 +289,8 @@
                 <h4>2.1.4 Results</h4>
                 <figure>
                     <img src="assets\ontology_figures\figure3.png"
-                        alt="Figure 1: Causal separation, hierarchy, and linear representation scores for Pythia models" class="figure-img" onclick="openModal(this.src)">
+                        alt="Figure 1: Causal separation, hierarchy, and linear representation scores for Pythia models"
+                        class="figure-img" onclick="openModal(this.src)">
                     <figcaption>
                         Causal separation, hierarchy, and linear representation scores for Pythia 70M, 160M, 1.4B, 2.8B,
                         and 12B models, for training steps from 1000 to 143,000.
@@ -337,6 +340,16 @@
                     and
                     parent-grandparent pairs, as the cosine similarity between these pairs gets closer and closer to 0.
                 </p>
+
+                <h5>Observation 4: </h5>
+                <figure>
+                    <iframe src="aism_depth_scatterplot.html" width="100%" height="500px" frameborder="0" scrolling="no"
+                        style="border: none;">
+                    </iframe>
+                    <figcaption>Interactive visualization of ontology score vs. term depth, for AISM ontology (Anatomy
+                        of the Insect SkeletoMuscular system)</figcaption>
+                </figure>
+
                 <h2>Applications</h2>
                 <p>[Content for Applications section]</p>
                 <h2>Future Work</h2>
@@ -353,11 +366,13 @@
             </div>
             <div class="figures-column">
                 <figure>
+
                     <img src="assets/ontology_figures/figure1.png" alt="Figure 1 from Park et. al." class="figure-img" onclick="openModal(this.src, this.alt)">
                     <figcaption>Figure 1 from Park et. al.</figcaption>
                 </figure>
             
                 <figure>
+
                     <img src="assets/ontology_figures/figure2.png" alt="Figure 2 from Park et. al." class="figure-img" onclick="openModal(this.src, this.alt)">
                     <figcaption>Figure 2 from Park et. al.</figcaption>
                 </figure>
