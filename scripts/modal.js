@@ -1,14 +1,16 @@
-function openModal(src) {
-    const modal = document.getElementById("myModal");
-    const modalImg = document.getElementById("modalImg");
-    modal.style.display = "flex"; // Change to flex to center content
+function openModal(src, caption) {
+    var modal = document.getElementById("myModal");
+    var modalImg = document.getElementById("modalImg");
+    var modalCaption = document.getElementById("modalCaption");
+
+    modal.style.display = "block";
     modalImg.src = src;
+    modalCaption.innerHTML = caption;
 }
 
 function closeModal() {
-    const modal = document.getElementById("myModal");
+    var modal = document.getElementById("myModal");
     modal.style.display = "none";
-    
 }
 
 // Close the modal if the user clicks anywhere outside of it

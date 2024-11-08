@@ -353,26 +353,28 @@
             </div>
             <div class="figures-column">
                 <figure>
-                    <img src="assets/ontology_figures/figure1.png" alt="Figure 1 from Park et. al." class="figure-img" onclick="openModal(this.src)">
+                    <img src="assets/ontology_figures/figure1.png" alt="Figure 1 from Park et. al." class="figure-img" onclick="openModal(this.src, this.alt)">
                     <figcaption>Figure 1 from Park et. al.</figcaption>
                 </figure>
-
+            
                 <figure>
-                    <img src="assets/ontology_figures/figure2.png" alt="Figure 2 from Park et. al." class="figure-img" onclick="openModal(this.src)">
+                    <img src="assets/ontology_figures/figure2.png" alt="Figure 2 from Park et. al." class="figure-img" onclick="openModal(this.src, this.alt)">
                     <figcaption>Figure 2 from Park et. al.</figcaption>
                 </figure>
-
+            
                 <figure>
-                    <img src="assets/ontology_figures/figure3.png" alt="Figure 3: Causal separation, hierarchy, and linear representation scores for Pythia models" class="figure-img" onclick="openModal(this.src)">
+                    <img src="assets/ontology_figures/figure3.png" alt="Causal separation, hierarchy, and linear representation scores for Pythia 70M, 160M, 1.4B, 2.8B, and 12B models, for training steps from 1000 to 143,000." class="figure-img" onclick="openModal(this.src, this.alt)">
                     <figcaption>Causal separation, hierarchy, and linear representation scores for Pythia 70M, 160M, 1.4B, 2.8B, and 12B models, for training steps from 1000 to 143,000.</figcaption>
                 </figure>
             </div>
-        </div>
-        
-        <div id="myModal" class="modal">
-            <span class="close" onclick="closeModal()">&times;</span>
-            <img class="modal-content" id="modalImg">
-        </div>
+            
+            <div id="myModal" class="modal">
+                <span class="close" onclick="closeModal()">&times;</span>
+                <div class="modal-content-container">
+                    <img class="modal-content" id="modalImg">
+                    <div id="modalCaption"></div>
+                </div>
+            </div>
     </main>
     <script src="scripts/modal.js"></script>
 </body>
