@@ -487,12 +487,42 @@
                 <div>
                     <h2>Research Question 2: How does term depth affect ontology score?</h2>
                     <h5>Observation 4: </h5>
+                    <p>
+                        In the heatmaps used to calculate causal separability scores, each row corresponds to a synset.
+                        For instance, the first row is typically "entity", since synsets were sorted in topological
+                        order prior to generating heatmaps.
+                        Using this fact, we propose term causal separability scores. Similar to how model causal
+                        separability scores are calculated, we take each individual row of the adjacency and cosine
+                        similarity heatmaps and find the norm of the difference between the rows (disregarding the
+                        diagonal of the cosine similarity heatmap).
+                        For each term, a lower score indicates higher ontological representation of that term in the
+                        model.
+                    </p>
+                    <p>
+                        We also find average depths of synsets in their ontologies. Many synsets have multiple hypernym
+                        paths, due to having multiple parents. By averaging the length of all these hypernym paths, we
+                        get a depth for each synset.
+                    </p>
+                    <p>
+                        We generate scatterplots for each ontology, plotting synset depth vs. term causal separability
+                        scores. The scores were calculated using heatmaps from Pythia 70M step143000.
+                    </p>
+                    <p>
+                        Each synset is colored by their term class. A synset's term class is the highest parent of their
+                        hypernym path. Various synsets have multiple hypernym paths, sometimes leading to multiple term
+                        classes.
+                    </p>
+                    <p>
+                        Using ininigram, we also find corpus pretraining frequencies for each synset name. Pythia models
+                        were trained on The Pile dataset. For each term, we find its frequency in The Pile, represented
+                        by marker size on the depth scatterplot.
+                    </p>
                     <figure>
                         <iframe src="aism_depth_scatterplot.html" width="100%" height="500px" frameborder="0"
                             scrolling="no" style="border: none;">
                         </iframe>
-                        <figcaption>Interactive visualization of ontology score vs. term depth, for AISM ontology
-                            (Anatomy
+                        <figcaption>Interactive visualization of term depth vs term causal separability score, for AISM
+                            ontology (Anatomy
                             of the Insect SkeletoMuscular system)</figcaption>
                     </figure>
                 </div>
