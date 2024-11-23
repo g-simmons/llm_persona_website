@@ -1,12 +1,15 @@
-function openModal(src) {
-    const modal = document.getElementById("myModal");
-    const modalImg = document.getElementById("modalImg");
-    modal.style.display = "flex"; // Change to flex to center content
+function openModal(src, caption) {
+    var modal = document.getElementById("myModal");
+    var modalImg = document.getElementById("modalImg");
+    var modalCaption = document.getElementById("modalCaption");
+
+    modal.style.display = "block";
     modalImg.src = src;
+    modalCaption.innerHTML = caption;
 }
 
 function closeModal() {
-    const modal = document.getElementById("myModal");
+    var modal = document.getElementById("myModal");
     modal.style.display = "none";
 }
 
@@ -15,5 +18,11 @@ window.onclick = function (event) {
     const modal = document.getElementById("myModal");
     if (event.target == modal) {
         closeModal();
-    }
+    }   
 }
+// Close the modal if user hits 'Esc'
+document.addEventListener('keydown', function(event) {
+    if (event.key === "Escape") {
+        closeModal();
+    }
+});
