@@ -5,8 +5,135 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ontology Topology in Language Models</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>
+        $(document).ready(function () {
+            // Find all h2 headings
+            $('h2').each(function (index) {
+                // Get heading text
+                var headingText = $(this).text();
+
+                // Create unique ID for the heading if it doesn't have one
+                if (!$(this).attr('id')) {
+                    $(this).attr('id', 'section-' + index);
+                }
+
+                // Create table of contents entry
+                var tocEntry = $('<a>')
+                    .attr('href', '#' + $(this).attr('id'))
+                    .text(headingText)
+                    .addClass('toc-entry');
+
+                // Add entry to sidebar
+                $('.figures-column').append(tocEntry);
+
+                // Find all h3 headings until next h2
+                var nextH2 = $(this).nextAll('h2').first();
+                var h3Range = $(this).nextUntil(nextH2, 'h3');
+
+                h3Range.each(function (subIndex) {
+                    var subHeadingText = $(this).text();
+
+                    // Create unique ID for the h3 if it doesn't have one
+                    if (!$(this).attr('id')) {
+                        $(this).attr('id', 'subsection-' + index + '-' + subIndex);
+                    }
+
+                    // Create sub-entry with 1 level indentation
+                    var subTocEntry = $('<a>')
+                        .attr('href', '#' + $(this).attr('id'))
+                        .text(subHeadingText)
+                        .addClass('toc-entry')
+                        .addClass('toc-subentry')
+                        .css('padding-left', '20px');
+
+                    // Add sub-entry to sidebar
+                    $('.figures-column').append(subTocEntry);
+
+                    // Find all figures until next heading
+                    var nextHeading = $(this).nextAll('h2, h3').first();
+                    var figures = $(this).nextUntil(nextHeading, 'figure');
+
+                    figures.each(function (figIndex) {
+                        // Get figure caption text
+                        var figCaption = $(this).find('figcaption').text();
+                        var figImg = $(this).find('img').clone();
+                        var figIframe = $(this).find('iframe').clone();
+
+                        // Create unique ID for the figure if it doesn't have one
+                        if (!$(this).attr('id')) {
+                            $(this).attr('id', 'figure-' + index + '-' + subIndex + '-' + figIndex);
+                        }
+
+                        // Create figure entry container with 2 levels indentation
+                        var figContainer = $('<div>')
+                            .addClass('toc-figure-container')
+                            .css('padding-left', '40px');
+
+                        // Create figure entry
+                        var figEntry = $('<a>')
+                            .attr('href', '#' + $(this).attr('id'))
+                            .text(figCaption)
+                            .addClass('toc-entry')
+                            .addClass('toc-subentry')
+                            .addClass('toc-figure');
+
+                        // Add figure entry and image/iframe to container
+                        figContainer.append(figEntry);
+                        if (figImg.length) {
+                            figContainer.append(figImg);
+                        }
+                        if (figIframe.length) {
+                            figContainer.append(figIframe);
+                        }
+
+                        // Add container to sidebar
+                        $('.figures-column').append(figContainer);
+                    });
+                });
+
+                // Also check for figures directly under h2 before first h3
+                var firstH3 = $(this).nextAll('h3').first();
+                var directFigures = $(this).nextUntil(firstH3, 'figure');
+
+                directFigures.each(function (figIndex) {
+                    var figCaption = $(this).find('figcaption').text();
+                    var figImg = $(this).find('img').clone();
+                    var figIframe = $(this).find('iframe').clone();
+
+                    if (!$(this).attr('id')) {
+                        $(this).attr('id', 'figure-' + index + '-direct-' + figIndex);
+                    }
+
+                    // Create figure entry container with 2 levels indentation
+                    var figContainer = $('<div>')
+                        .addClass('toc-figure-container')
+                        .css('padding-left', '40px');
+
+                    var figEntry = $('<a>')
+                        .attr('href', '#' + $(this).attr('id'))
+                        .text(figCaption)
+                        .addClass('toc-entry')
+                        .addClass('toc-subentry')
+                        .addClass('toc-figure');
+
+                    // Add figure entry and image/iframe to container
+                    figContainer.append(figEntry);
+                    if (figImg.length) {
+                        figContainer.append(figImg);
+                    }
+                    if (figIframe.length) {
+                        figContainer.append(figIframe);
+                    }
+
+                    // Add container to sidebar
+                    $('.figures-column').append(figContainer);
+                });
+            });
+        });
+    </script>
     <link rel="stylesheet" href="css/style.css" />
     <link rel="icon" href="assets/images/favicon.ico">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -50,6 +177,9 @@
             overflow-y: auto;
             border-left: 1px solid #ccc;
             padding-left: 20px;
+            margin-top: 10%;
+            display: flex;
+            flex-direction: column;
         }
 
         figure {
@@ -65,6 +195,35 @@
         figcaption {
             font-style: italic;
             margin-top: 10px;
+        }
+
+        .ontology-select {
+            margin: 20px 0;
+            padding: 8px;
+            font-size: 16px;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .ontology-plot {
+            display: none;
+        }
+
+        .ontology-plot.active {
+            display: block;
+        }
+
+        h2 {
+            margin-top: 3em;
+        }
+
+        h3 {
+            margin-top: 1.5em;
+            font-size: 1.4em;
+        }
+
+        h4 {
+            font-size: 1.3em;
         }
     </style>
 </head>
@@ -84,8 +243,6 @@
                     <a class='blog-link' href="ontology_topology.html">Ontology Topology</a>
                 </div>
             </div>
-            <!-- <a href="/blogs/">Blogs</a> -->
-            <a href="journal.html">Journal Club</a>
             <div class="dropdown">
                 <a href="journal.html">Journal Club</a>
                 <div class="dropdown-content">
@@ -106,8 +263,11 @@
                 <ul>
                     <li style="margin-right: 3em;"><b>Raymond Ran</b> <br> <span style="font-size: smaller;">(Most of
                             this blog post, experiment design and execution)</span></li>
+                    <li style="margin-right: 3em;"><b>Logan Somoza</b> <br> <span style="font-size: smaller;">(Term
+                            Frequency calculation; engineering including parallelization of heatmap calculation)</span>
+                    </li>
                     <li style="margin-right: 3em"><b>Gabriel Simmons</b> <br> <span style="font-size: smaller;">(wrote
-                            TLDR, some editing, some guidance on experiments)</span></li>
+                            TLDR, some editing of this blog post, some guidance on experiments)</span></li>
                 </ul>
 
                 Status:
@@ -198,8 +358,8 @@
                     near-zero values in the third heatmap, demonstrating the orthogonality between the child-parent and
                     parent-grandparent concepts.</p>
                 <figure>
-                    <img src="assets\ontology_figures\figure1.png" alt="Figure 1 from Park et. al."
-                    class="figure-img" onclick="openModal(this.src)">
+                    <img src="assets\ontology_figures\figure1.png" alt="Figure 1 from Park et. al." class="figure-img"
+                        onclick="openModal(this.src)">
                     <figcaption>Figure 1 from Park et. al.</figcaption>
                 </figure>
                 <p>
@@ -208,145 +368,266 @@
                     groups, indicating high level representation of ontological features in the LLM space.
                 </p>
                 <figure>
-                    <img src="assets\ontology_figures\figure2.png" alt="Figure 2 from Park et. al." class="figure-img" onclick="openModal(this.src)">
+                    <img src="assets\ontology_figures\figure2.png" alt="Figure 2 from Park et. al." class="figure-img"
+                        onclick="openModal(this.src)">
                     <figcaption>Figure 2 from Park et. al.</figcaption>
                 </figure>
-                <h2>2. Research Question</h2>
-                <p>In this investigation, we explore if longer-trained LLM models have better ontological
-                    representations.
-                </p>
-                <h3>2.1 Method</h3>
-                <h4>2.1.1 Scores/Evaluation</h4>
-                <p>
-                    Using the formalization from Park et al. as a basis, we introduce three scores for evaluating a
-                    model’s ontological maturity.
-                </p>
-                <p>
 
-                    Linear representation: the average of the concept representation vector norms from Figure 2.</p>
-                $$
-                \text{linear-rep-score(model, ontology)}
-                $$
-                $$
-                = \mathbb{E}_{\text{binary concepts}}\left(\cos(\text{test-word}, \text{concept vector})\right)
-                $$
-                $$
-                \mathbb{E}_{y \in y(w)} \text{proj}(y, \bar{\ell}_w)
-                $$
-                $$
-                \text{where } \bar{\ell}_w \text{ is the LDA vector from Park et al.}:
-                $$
+                <h2>Methods</h2>
 
-                $$
-                \bar{\ell}_w = (\left(\tilde{g}_{w}^{\top}\right)\mathbb{E}(g_{w}))\tilde{g}_{w}
-                $$
+                <div>
+                    <h4>2.1.1 Scores/Evaluation</h4>
+                    <p>
+                        Using the formalization from Park et al. as a basis, we introduce three scores for evaluating a
+                        model’s ontological maturity.
+                    </p>
+                    <p>
+                        Linear representation: the average of the concept representation vector norms from Figure 2.</p>
+                    $$
+                    \text{linear-rep-score(model, ontology)}
+                    $$
+                    $$
+                    = \mathbb{E}_{\text{binary concepts}}\left(\cos(\text{test-word}, \text{concept vector})\right)
+                    $$
+                    $$
+                    \mathbb{E}_{y \in y(w)} \text{proj}(y, \bar{\ell}_w)
+                    $$
+                    $$
+                    \text{where } \bar{\ell}_w \text{ is the LDA vector from Park et al.}:
+                    $$
+                    $$
+                    \bar{\ell}_w = (\left(\tilde{g}_{w}^{\top}\right)\mathbb{E}(g_{w}))\tilde{g}_{w}
+                    $$
+                    $$
+                    \tilde{g}_{w} = \frac{\text{Cov} (g_{w})^\dagger \mathbb{E}(g_{w})}{\left\| \text{Cov}
+                    (g_{w})^\dagger
+                    \mathbb{E}(g_{w}) \right\|_{2}}
+                    $$
+                    </p>
+                    <p>
+                        Causal separability: by comparing the adjacency matrix and cosine similarity of representation
+                        vectors from Figure 1, we find the Frobenius norm of the difference between the cosine
+                        similarity
+                        and adjacency matrices, ignoring the diagonal.
+                    </p>
+                    $$
+                    \text{causal-sep-score}(m,o) = \left\| \text{Adj}(o) - \text{off-diag}(\text{cos}(\tilde{\ell}_w),
+                    (\tilde{\ell})_z) \right\|_{F}
+                    $$
+                    <p>
+                        Hierarchical: the Frobenius norm of the cosine similarity between child-parent representation
+                        differences, disregarding the diagonal as well.
+                    </p>
+                    $$
+                    \text{hierarchy-score} = \left\| \mathbb{1} - \text{cos}(\tilde{\ell}_w - \tilde{\ell}_\text{parent
+                    of
+                    W}, \tilde{\ell}_{Z} - \tilde{\ell}_\text{parent of Z}) \right\|_F
+                    $$
+                    $$
+                    \text{where } \mathbb{1} \text{ is the appropriately-sized identity matrix}
+                    $$
+                    <h4>2.1.2 Model</h4>
+                    <p>
+                        For the LLM model, Park et al. uses Google’s Gemma-2b model. However, we use EleutherAI’s Pythia
+                        models in our investigation, a collection of models with various parameter sizes with
+                        checkpoints in
+                        terms of training steps. These include every thousandth step between step1000 and step143000, of
+                        which we use the odd thousands (step1000, step3000, …). This allows us to measure the above
+                        three
+                        scores as a function of training steps.
+                    </p>
+                    <p>
+                        We use five different sized models: 70M, 160M, 1.4B, 2.8B, and 12B parameters. [add something
+                        about
+                        MMLU scores?] Of these, evaluations on 160M, 2.8B, and 12B can be found on the Open LLM
+                        Leaderboard.
+                        link?
+                    </p>
+                    <h4>2.1.3 Data</h4>
+                    <p>
+                        For the ontology, we use the WordNet database as did so by Park et al. in their original
+                        exploration. This database contains thousands of synsets (groups of synonyms for a concept),
+                        related
+                        to one another in a hierarchical fashion.
+                    </p>
+                </div>
 
-                $$
-                \tilde{g}_{w} = \frac{\text{Cov} (g_{w})^\dagger \mathbb{E}(g_{w})}{\left\| \text{Cov} (g_{w})^\dagger
-                \mathbb{E}(g_{w}) \right\|_{2}}
-                $$
-                </p>
-                <p>
+                <div>
+                    <h2>2. Research Question 1: Do longer-trained LLMs have better ontological representations? </h2>
+                    <h3>Experiment Setup</h3>
+                    [Experiment Setup TODO]
+                    <h3>Results</h3>
+                    <figure>
+                        <img src="assets\ontology_figures\figure3.png"
+                            alt="Figure 1: Causal separation, hierarchy, and linear representation scores for Pythia models"
+                            class="figure-img" onclick="openModal(this.src)">
+                        <figcaption>
+                            Causal separation, hierarchy, and linear representation scores for Pythia 70M, 160M,
+                            1.4B,
+                            2.8B,
+                            and 12B models, for training steps from 1000 to 143,000.
+                        </figcaption>
+                    </figure>
+                    <h3>Observation 1: Ontological maturity increases with training steps</h3>
+                    <p>From each graph, we see a clear improvement in each of the respective scores, an increase in
+                        linear
+                        representation
+                        scores and a decrease in the causal separation and hierarchical scores. This plateaus after
+                        sharp
+                        improvement,
+                        similar to the common trend that models improve mostly at the beginning of training.</p>
+                    <h3>Observation 2: Larger models demonstrate improved scores (generally)</h3>
+                    <p>
+                        The models improve in terms of parameter size as well, where increasingly higher parameter
+                        models
+                        have better scores with the exception of linear representation, where we see a
+                        counter-intuitive
+                        pattern, as progressively lower parameter sizes lead to higher scores.
+                    </p>
+                    <h3>Observation 3: Larger models show more variability in hierarchy and causal separation scores
+                    </h3>
+                    <p>Looking at the causal separation and hierarchical scores, we see that for 70M and 160M
+                        models,
+                        scores
+                        are
+                        relatively
+                        smooth throughout training. However, there is more noise in the curves moving down to the
+                        larger
+                        models.
+                        It
+                        seems
+                        that the noise increases along with model size.</p>
+                    <p>We computed levels of noise by totaling the squared error between the points and a best fit
+                        logarithmic
+                        function.
+                    </p>
+                    <p>This is not the case of linear representation, where all curves are smooth and generally
+                        monotonic.
+                    </p>
+                    <p>A higher linear representation score means better high-level representation of ontological
+                        concepts,
+                        as
+                        the
+                        distinction between these concepts and random words grows.</p>
+                    <p>The decrease in causal separability score is indicative that the reflection of the adjacency
+                        matrix
+                        is
+                        more
+                        apparent
+                        in the cosine similarity matrix, implying improved representation of ontological categories
+                        in
+                        the
+                        Pythia
+                        model
+                        space.</p>
+                    <p>The decrease in hierarchical score is indicative of more pronounced orthogonality between
+                        child-parent
+                        and
+                        parent-grandparent pairs, as the cosine similarity between these pairs gets closer and
+                        closer to
+                        0.
+                    </p>
+                </div>
 
-                    Causal separability: by comparing the adjacency matrix and cosine similarity of representation
-                    vectors from Figure 1, we find the Frobenius norm of the difference between the cosine similarity
-                    and adjacency matrices, ignoring the diagonal.
-                </p>
-                $$
-                \text{causal-sep-score}(m,o) = \left\| \text{Adj}(o) - \text{off-diag}(\text{cos}(\tilde{\ell}_w),
-                (\tilde{\ell})_z) \right\|_{F}
-                $$
-                <p>
-                    Hierarchical: the Frobenius norm of the cosine similarity between child-parent representation
-                    differences, disregarding the diagonal as well.
-                </p>
-                $$
-                \text{hierarchy-score} = \left\| \mathbb{1} - \text{cos}(\tilde{\ell}_w - \tilde{\ell}_\text{parent of W}, \tilde{\ell}_{Z} - \tilde{\ell}_\text{parent of Z}) \right\|_F
-                $$
-                $$
-                \text{where } \mathbb{1} \text{ is the appropriately-sized identity matrix}
-                $$
-                <p>
-                    Term frequencies: We calculated term frequencies using the infini-gram python package, an 
-                    unbounded n-gram model. Infini-gram utilizes a suffix array: a lexicographically sorted integer 
-                    array containing the starting indices of all suffixes of a corpus. The lexicographically sorted 
-                    nature of the suffix arrays allows infini-gram to use binary searches to find and count 
-                    lexicographically equal occurrences of a given term. Infini-gram achieves O(n) space and (when 
-                    searching for a term T) O(logn* |T|) searching rather than traditional O(n*|T|). 
-                </p>
+                <div>
+                    <h2>Research Question 2: How does term depth affect ontology score?</h2>
+                    <h3>Experiment Setup</h3>
 
-                <h4>2.1.2 Model</h4>
-                <p>
-                    For the LLM model, Park et al. uses Google’s Gemma-2b model. However, we use EleutherAI’s Pythia
-                    models in our investigation, a collection of models with various parameter sizes with checkpoints in
-                    terms of training steps. These include every thousandth step between step1000 and step143000, of
-                    which we use the odd thousands (step1000, step3000, …). This allows us to measure the above three
-                    scores as a function of training steps.
-                </p>
-                <p>
-                    We use five different sized models: 70M, 160M, 1.4B, 2.8B, and 12B parameters. [add something about
-                    MMLU scores?] Of these, evaluations on 160M, 2.8B, and 12B can be found on the Open LLM Leaderboard.
-                    link?
-                </p>
-                <h4>2.1.3 Data</h4>
-                <p>
-                    For the ontology, we use the WordNet database as did so by Park et al. in their original
-                    exploration. This database contains thousands of synsets (groups of synonyms for a concept), related
-                    to one another in a hierarchical fashion.
-                </p>
-                <h4>2.1.4 Results</h4>
-                <figure>
-                    <img src="assets\ontology_figures\figure3.png"
-                        alt="Figure 1: Causal separation, hierarchy, and linear representation scores for Pythia models" class="figure-img" onclick="openModal(this.src)">
-                    <figcaption>
-                        Causal separation, hierarchy, and linear representation scores for Pythia 70M, 160M, 1.4B, 2.8B,
-                        and 12B models, for training steps from 1000 to 143,000.
-                    </figcaption>
-                </figure>
-                <h5>Observation 1: Ontological maturity increases with training steps</h5>
-                <p>From each graph, we see a clear improvement in each of the respective scores, an increase in linear
-                    representation
-                    scores and a decrease in the causal separation and hierarchical scores. This plateaus after sharp
-                    improvement,
-                    similar to the common trend that models improve mostly at the beginning of training.</p>
-                <h5>Observation 2: Larger models demonstrate improved scores (generally)</h5>
-                <p>
-                    The models improve in terms of parameter size as well, where increasingly higher parameter models
-                    have better scores with the exception of linear representation, where we see a counter-intuitive
-                    pattern, as progressively lower parameter sizes lead to higher scores.
-                </p>
-                <h5>Observation 3: Larger models show more variability in hierarchy and causal separation scores</h5>
-                <p>Looking at the causal separation and hierarchical scores, we see that for 70M and 160M models, scores
-                    are
-                    relatively
-                    smooth throughout training. However, there is more noise in the curves moving down to the larger
-                    models.
-                    It
-                    seems
-                    that the noise increases along with model size.</p>
-                <p>We computed levels of noise by totaling the squared error between the points and a best fit
-                    logarithmic
-                    function.
-                </p>
-                <p>This is not the case of linear representation, where all curves are smooth and generally monotonic.
-                </p>
-                <p>A higher linear representation score means better high-level representation of ontological concepts,
-                    as
-                    the
-                    distinction between these concepts and random words grows.</p>
-                <p>The decrease in causal separability score is indicative that the reflection of the adjacency matrix
-                    is
-                    more
-                    apparent
-                    in the cosine similarity matrix, implying improved representation of ontological categories in the
-                    Pythia
-                    model
-                    space.</p>
-                <p>The decrease in hierarchical score is indicative of more pronounced orthogonality between
-                    child-parent
-                    and
-                    parent-grandparent pairs, as the cosine similarity between these pairs gets closer and closer to 0.
-                </p>
+                    <p>
+                        In the heatmaps used to calculate causal separability scores, each row corresponds to a
+                        synset.
+                        For instance, the first row is typically "entity", since synsets were sorted in topological
+                        order prior to generating heatmaps.
+                        Using this fact, we propose term causal separability scores. Similar to how model causal
+                        separability scores are calculated, we take each individual row of the adjacency and cosine
+                        similarity heatmaps and find the norm of the difference between the rows (disregarding the
+                        diagonal of the cosine similarity heatmap).
+                        For each term, a lower score indicates higher ontological representation of that term in the
+                        model.
+                    </p>
+                    <p>
+                        We also find average depths of synsets in their ontologies. Many synsets have multiple
+                        hypernym
+                        paths, due to having multiple parents. By averaging the length of all these hypernym paths,
+                        we
+                        get a depth for each synset.
+
+                    </p>
+                    <p>
+                        We generate scatterplots for each ontology, plotting synset depth vs. term causal
+                        separability
+                        scores. The scores were calculated using heatmaps from Pythia 70M step143000.
+                    </p>
+
+                    <h3>Observation 4: Maximum ontology score decreases with term depth</h3>
+                    <p>
+                        Each synset is colored by their term class. A synset's term class is the highest parent of
+                        their
+                        hypernym path. Various synsets have multiple hypernym paths, sometimes leading to multiple
+                        term
+                        classes.
+                    </p>
+                    <p>
+                        Using Infinigram, we also find corpus pretraining frequencies for each synset name. Pythia
+                        models were trained on The Pile dataset. For each term, we find its frequency in The Pile,
+                        represented
+                        by marker size on the depth scatterplot.
+                    </p>
+
+                    <select id="ontology-select" class="ontology-select">
+                        <option value="aism">AISM (Anatomy of the Insect SkeletoMuscular system)</option>
+                        <!-- <option value="bfo">BFO (Basic Formal Ontology)</option> -->
+                    </select>
+
+
+                    <figure id="aism-plot" class="ontology-plot active">
+                        <iframe src="aism_depth_scatterplot.html" width="100%" height="500px" frameborder="0"
+                            scrolling="no" style="border: none;">
+                        </iframe>
+                        <figcaption>Interactive visualization of term depth vs term causal separability score, for
+                            AISM
+                            ontology (Anatomy of the Insect SkeletoMuscular system)</figcaption>
+                    </figure>
+
+                    <figure id="bfo-plot" class="ontology-plot">
+                        <iframe src="aism_depth_scatterplot.html" width="100%" height="500px" frameborder="0"
+                            scrolling="no" style="border: none;">
+                        </iframe>
+                        <figcaption>Interactive visualization of term depth vs term causal separability score, for
+                            BFO
+                            ontology (Basic Formal Ontology)</figcaption>
+                    </figure>
+
+                    <figure id="caro-plot" class="ontology-plot">
+                        <iframe src="aism_depth_scatterplot.html" width="100%" height="500px" frameborder="0"
+                            scrolling="no" style="border: none;">
+                        </iframe>
+                        <figcaption>Interactive visualization of term depth vs term causal separability score, for
+                            CARO
+                            ontology (Common Anatomy Reference Ontology)</figcaption>
+                    </figure>
+
+                    <figure id="go-plot" class="ontology-plot">
+                        <iframe src="aism_depth_scatterplot.html" width="100%" height="500px" frameborder="0"
+                            scrolling="no" style="border: none;">
+                        </iframe>
+                        <figcaption>Interactive visualization of term depth vs term causal separability score, for
+                            GO
+                            ontology (Gene Ontology)</figcaption>
+                    </figure>
+
+                    <figure id="pato-plot" class="ontology-plot">
+                        <iframe src="aism_depth_scatterplot.html" width="100%" height="500px" frameborder="0"
+                            scrolling="no" style="border: none;">
+                        </iframe>
+                        <figcaption>Interactive visualization of term depth vs term causal separability score, for
+                            PATO
+                            ontology (Phenotype And Trait Ontology)</figcaption>
+                    </figure>
+
+                </div>
+
+
                 <h2>Applications</h2>
                 <p>[Content for Applications section]</p>
                 <h2>Future Work</h2>
@@ -362,27 +643,16 @@
 
             </div>
             <div class="figures-column">
-                <figure>
-                    <img src="assets/ontology_figures/figure1.png" alt="Figure 1 from Park et. al." class="figure-img" onclick="openModal(this.src)">
-                    <figcaption>Figure 1 from Park et. al.</figcaption>
-                </figure>
-
-                <figure>
-                    <img src="assets/ontology_figures/figure2.png" alt="Figure 2 from Park et. al." class="figure-img" onclick="openModal(this.src)">
-                    <figcaption>Figure 2 from Park et. al.</figcaption>
-                </figure>
-
-                <figure>
-                    <img src="assets/ontology_figures/figure3.png" alt="Figure 3: Causal separation, hierarchy, and linear representation scores for Pythia models" class="figure-img" onclick="openModal(this.src)">
-                    <figcaption>Causal separation, hierarchy, and linear representation scores for Pythia 70M, 160M, 1.4B, 2.8B, and 12B models, for training steps from 1000 to 143,000.</figcaption>
-                </figure>
             </div>
-        </div>
-        
-        <div id="myModal" class="modal">
-            <span class="close" onclick="closeModal()">&times;</span>
-            <img class="modal-content" id="modalImg">
-        </div>
+
+
+            <div id="myModal" class="modal">
+                <span class="close" onclick="closeModal()">&times;</span>
+                <div class="modal-content-container">
+                    <img class="modal-content" id="modalImg">
+                    <div id="modalCaption"></div>
+                </div>
+            </div>
     </main>
     <script src="scripts/modal.js"></script>
 </body>
