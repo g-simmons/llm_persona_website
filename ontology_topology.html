@@ -196,6 +196,35 @@
             font-style: italic;
             margin-top: 10px;
         }
+
+        .ontology-select {
+            margin: 20px 0;
+            padding: 8px;
+            font-size: 16px;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .ontology-plot {
+            display: none;
+        }
+
+        .ontology-plot.active {
+            display: block;
+        }
+
+        h2 {
+            margin-top: 3em;
+        }
+
+        h3 {
+            margin-top: 1.5em;
+            font-size: 1.4em;
+        }
+
+        h4 {
+            font-size: 1.3em;
+        }
     </style>
 </head>
 
@@ -234,8 +263,11 @@
                 <ul>
                     <li style="margin-right: 3em;"><b>Raymond Ran</b> <br> <span style="font-size: smaller;">(Most of
                             this blog post, experiment design and execution)</span></li>
+                    <li style="margin-right: 3em;"><b>Logan Somoza</b> <br> <span style="font-size: smaller;">(Term
+                            Frequency calculation; engineering including parallelization of heatmap calculation)</span>
+                    </li>
                     <li style="margin-right: 3em"><b>Gabriel Simmons</b> <br> <span style="font-size: smaller;">(wrote
-                            TLDR, some editing, some guidance on experiments)</span></li>
+                            TLDR, some editing of this blog post, some guidance on experiments)</span></li>
                 </ul>
 
                 Status:
@@ -340,9 +372,10 @@
                         onclick="openModal(this.src)">
                     <figcaption>Figure 2 from Park et. al.</figcaption>
                 </figure>
+
+                <h2>Methods</h2>
+
                 <div>
-                    <h2>2. Research Question 1: Do longer-trained LLMs have better ontological representations? </h2>
-                    <h3>2.1 Method</h3>
                     <h4>2.1.1 Scores/Evaluation</h4>
                     <p>
                         Using the formalization from Park et al. as a basis, we introduce three scores for evaluating a
@@ -417,18 +450,25 @@
                         related
                         to one another in a hierarchical fashion.
                     </p>
-                    <h4>2.1.4 Results</h4>
+                </div>
+
+                <div>
+                    <h2>2. Research Question 1: Do longer-trained LLMs have better ontological representations? </h2>
+                    <h3>Experiment Setup</h3>
+                    [Experiment Setup TODO]
+                    <h3>Results</h3>
                     <figure>
                         <img src="assets\ontology_figures\figure3.png"
                             alt="Figure 1: Causal separation, hierarchy, and linear representation scores for Pythia models"
                             class="figure-img" onclick="openModal(this.src)">
                         <figcaption>
-                            Causal separation, hierarchy, and linear representation scores for Pythia 70M, 160M, 1.4B,
+                            Causal separation, hierarchy, and linear representation scores for Pythia 70M, 160M,
+                            1.4B,
                             2.8B,
                             and 12B models, for training steps from 1000 to 143,000.
                         </figcaption>
                     </figure>
-                    <h5>Observation 1: Ontological maturity increases with training steps</h5>
+                    <h3>Observation 1: Ontological maturity increases with training steps</h3>
                     <p>From each graph, we see a clear improvement in each of the respective scores, an increase in
                         linear
                         representation
@@ -436,20 +476,23 @@
                         sharp
                         improvement,
                         similar to the common trend that models improve mostly at the beginning of training.</p>
-                    <h5>Observation 2: Larger models demonstrate improved scores (generally)</h5>
+                    <h3>Observation 2: Larger models demonstrate improved scores (generally)</h3>
                     <p>
                         The models improve in terms of parameter size as well, where increasingly higher parameter
                         models
-                        have better scores with the exception of linear representation, where we see a counter-intuitive
+                        have better scores with the exception of linear representation, where we see a
+                        counter-intuitive
                         pattern, as progressively lower parameter sizes lead to higher scores.
                     </p>
-                    <h5>Observation 3: Larger models show more variability in hierarchy and causal separation scores
-                    </h5>
-                    <p>Looking at the causal separation and hierarchical scores, we see that for 70M and 160M models,
+                    <h3>Observation 3: Larger models show more variability in hierarchy and causal separation scores
+                    </h3>
+                    <p>Looking at the causal separation and hierarchical scores, we see that for 70M and 160M
+                        models,
                         scores
                         are
                         relatively
-                        smooth throughout training. However, there is more noise in the curves moving down to the larger
+                        smooth throughout training. However, there is more noise in the curves moving down to the
+                        larger
                         models.
                         It
                         seems
@@ -471,7 +514,8 @@
                         is
                         more
                         apparent
-                        in the cosine similarity matrix, implying improved representation of ontological categories in
+                        in the cosine similarity matrix, implying improved representation of ontological categories
+                        in
                         the
                         Pythia
                         model
@@ -479,16 +523,19 @@
                     <p>The decrease in hierarchical score is indicative of more pronounced orthogonality between
                         child-parent
                         and
-                        parent-grandparent pairs, as the cosine similarity between these pairs gets closer and closer to
+                        parent-grandparent pairs, as the cosine similarity between these pairs gets closer and
+                        closer to
                         0.
                     </p>
                 </div>
 
                 <div>
                     <h2>Research Question 2: How does term depth affect ontology score?</h2>
-                    <h5>Observation 4: </h5>
+                    <h3>Experiment Setup</h3>
+
                     <p>
-                        In the heatmaps used to calculate causal separability scores, each row corresponds to a synset.
+                        In the heatmaps used to calculate causal separability scores, each row corresponds to a
+                        synset.
                         For instance, the first row is typically "entity", since synsets were sorted in topological
                         order prior to generating heatmaps.
                         Using this fact, we propose term causal separability scores. Similar to how model causal
@@ -499,17 +546,25 @@
                         model.
                     </p>
                     <p>
-                        We also find average depths of synsets in their ontologies. Many synsets have multiple hypernym
-                        paths, due to having multiple parents. By averaging the length of all these hypernym paths, we
+                        We also find average depths of synsets in their ontologies. Many synsets have multiple
+                        hypernym
+                        paths, due to having multiple parents. By averaging the length of all these hypernym paths,
+                        we
                         get a depth for each synset.
+
                     </p>
                     <p>
-                        We generate scatterplots for each ontology, plotting synset depth vs. term causal separability
+                        We generate scatterplots for each ontology, plotting synset depth vs. term causal
+                        separability
                         scores. The scores were calculated using heatmaps from Pythia 70M step143000.
                     </p>
+
+                    <h3>Observation 4: Maximum ontology score decreases with term depth</h3>
                     <p>
-                        Each synset is colored by their term class. A synset's term class is the highest parent of their
-                        hypernym path. Various synsets have multiple hypernym paths, sometimes leading to multiple term
+                        Each synset is colored by their term class. A synset's term class is the highest parent of
+                        their
+                        hypernym path. Various synsets have multiple hypernym paths, sometimes leading to multiple
+                        term
                         classes.
                     </p>
                     <p>
@@ -518,15 +573,60 @@
                         represented
                         by marker size on the depth scatterplot.
                     </p>
-                    <figure>
+
+                    <select id="ontology-select" class="ontology-select">
+                        <option value="aism">AISM (Anatomy of the Insect SkeletoMuscular system)</option>
+                        <!-- <option value="bfo">BFO (Basic Formal Ontology)</option> -->
+                    </select>
+
+
+                    <figure id="aism-plot" class="ontology-plot active">
                         <iframe src="aism_depth_scatterplot.html" width="100%" height="500px" frameborder="0"
                             scrolling="no" style="border: none;">
                         </iframe>
-                        <figcaption>Interactive visualization of term depth vs term causal separability score, for AISM
-                            ontology (Anatomy
-                            of the Insect SkeletoMuscular system)</figcaption>
+                        <figcaption>Interactive visualization of term depth vs term causal separability score, for
+                            AISM
+                            ontology (Anatomy of the Insect SkeletoMuscular system)</figcaption>
                     </figure>
+
+                    <figure id="bfo-plot" class="ontology-plot">
+                        <iframe src="aism_depth_scatterplot.html" width="100%" height="500px" frameborder="0"
+                            scrolling="no" style="border: none;">
+                        </iframe>
+                        <figcaption>Interactive visualization of term depth vs term causal separability score, for
+                            BFO
+                            ontology (Basic Formal Ontology)</figcaption>
+                    </figure>
+
+                    <figure id="caro-plot" class="ontology-plot">
+                        <iframe src="aism_depth_scatterplot.html" width="100%" height="500px" frameborder="0"
+                            scrolling="no" style="border: none;">
+                        </iframe>
+                        <figcaption>Interactive visualization of term depth vs term causal separability score, for
+                            CARO
+                            ontology (Common Anatomy Reference Ontology)</figcaption>
+                    </figure>
+
+                    <figure id="go-plot" class="ontology-plot">
+                        <iframe src="aism_depth_scatterplot.html" width="100%" height="500px" frameborder="0"
+                            scrolling="no" style="border: none;">
+                        </iframe>
+                        <figcaption>Interactive visualization of term depth vs term causal separability score, for
+                            GO
+                            ontology (Gene Ontology)</figcaption>
+                    </figure>
+
+                    <figure id="pato-plot" class="ontology-plot">
+                        <iframe src="aism_depth_scatterplot.html" width="100%" height="500px" frameborder="0"
+                            scrolling="no" style="border: none;">
+                        </iframe>
+                        <figcaption>Interactive visualization of term depth vs term causal separability score, for
+                            PATO
+                            ontology (Phenotype And Trait Ontology)</figcaption>
+                    </figure>
+
                 </div>
+
 
                 <h2>Applications</h2>
                 <p>[Content for Applications section]</p>
