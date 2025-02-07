@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html>
 <head>
 
     <meta charset="UTF-8">
@@ -24,7 +23,6 @@
                 <div class="dropdown-content">
                     <a class='blog-link' href="prompt_skywriting.html">Drawing with Prompts</a>
                     <a class='blog-link' href="ontology_topology.html">Ontology Topology</a>
-                    <a class='blog-link' href="infini_gram.html">Infini-gram</a>
                 </div>
             </div>
             <!-- <a href="/blogs/">Blogs</a> -->
@@ -109,22 +107,10 @@
         emailjs.init("fw-QjkfIMrZv6_FLs");
     </script>
     <script>
-        function sendEmail() {
-            const form = document.getElementById("contactForm");
-
-            emailjs.sendForm("service_u8dx6hm", "template_7zgkf0w", form)
-                .then((response) => {
-                    console.log("Email sent successfully", response);
-                    alert("Thank you for your message! The message have been emailed to us!");
-                    form.reset();
-                    // Optionally, you can show a success message or redirect the user.
-                })
-                .catch((error) => {
-                    console.error("Error sending email", error);
-                    // Optionally, you can show an error message to the user.
-                });
-        }
+        window.location.href = "https://g-simmons.github.io/persona-research-internship/";
     </script>
+</head>
+<body>
+    <p>This site has moved. If you are not redirected automatically, please <a href="https://g-simmons.github.io/persona-research-internship/">click here</a>.</p>
 </body>
-
 </html>
