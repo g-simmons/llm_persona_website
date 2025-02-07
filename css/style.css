@@ -69,6 +69,12 @@ nav a:hover {
     text-underline-offset: 1rem;;
 }
 
+.link {
+    display: inline;
+    padding: 0;
+    border-radius: 0;
+}
+
 .research-section, .journal-section, .contact-section, .people-section {
     display: flex;
     flex-direction: row;
@@ -139,6 +145,25 @@ p {
     line-height: 1.6;
     color: var(--text-color);
     margin-bottom: 20px;
+}
+
+li {
+    line-height: 1.6;
+    color: var(--text-color);
+}
+
+pre {
+    white-space: pre-wrap; /* Allows wrapping */
+    word-wrap: break-word;
+    background-color: #f4f4f4;
+    padding: 2% 5%;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+code {
+    font-family: monospace;
+    color: #333;
 }
 
 a {
